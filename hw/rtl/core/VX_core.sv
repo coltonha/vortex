@@ -340,6 +340,7 @@ module VX_core import VX_gpu_pkg::*; #(
     real scheduler_idles = pipeline_perf_if.sched_idles;
     real scheduler_stalls = pipeline_perf_if.sched_stalls;
     real ibuf_stalls = pipeline_perf_if.ibf_stalls;
+    real issue_stalls = pipeline_perf_if.scb_stalls;
     real scrb_alu_per_core = pipeline_perf_if.units_uses[`EX_ALU];
     real scrb_fpu_per_core = pipeline_perf_if.units_uses[`EX_FPU];
     real scrb_lsu_per_core = pipeline_perf_if.units_uses[`EX_LSU];
@@ -373,7 +374,7 @@ module VX_core import VX_gpu_pkg::*; #(
         $display("scheduler idle: %d (%f)", pipeline_perf_if.sched_idles, scheduler_idles/cycles);
         $display("scheduler stalls: %d (%f)", pipeline_perf_if.sched_stalls, scheduler_stalls/cycles);
         $display("ibuffer stalls: %d (%f)",pipeline_perf_if.ibf_stalls, ibuf_stalls/cycles);
-        $display("issue stalls: %d(alu=%f, fpu=%f, lsu=%f, sfu=%f)",pipeline_perf_if.scb_stalls, scrb_alu_per_core/scrb_tot, scrb_fpu_per_core/scrb_tot, scrb_lsu_per_core/scrb_tot, scrb_sfu_per_core/scrb_tot);
+        $display("issue stalls: %d, issue stalls per cycle:%f (alu=%f, fpu=%f, lsu=%f, sfu=%f)", pipeline_perf_if.scb_stalls, issue_stalls/`ISSUE_WIDTH, scrb_alu_per_core/scrb_tot, scrb_fpu_per_core/scrb_tot, scrb_lsu_per_core/scrb_tot, scrb_sfu_per_core/scrb_tot);
         $display("sfu stalls: %d (scrs=%f, wctl=%f)",pipeline_perf_if.units_uses[`EX_SFU], scrb_csrs_per_core/sfu_tot, scrb_wctl_per_core/sfu_tot);
         $display("ifetches: %d", perf_ifetches);
         $display("ifetch latency: %f Cycles", icache_lat/ifetches);
