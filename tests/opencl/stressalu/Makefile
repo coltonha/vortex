@@ -1,4 +1,4 @@
-PROJECT = fpuexhaust
+PROJECT = stressalu
 
 SRCS = main.cc
 

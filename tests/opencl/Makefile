@@ -15,7 +15,8 @@ all:
 	$(MAKE) -C blackscholes
 	$(MAKE) -C transpose
 	$(MAKE) -C convolution
-	$(MAKE) -C fpuexhaust
+	$(MAKE) -C stressfpu
+	$(MAKE) -C stressalu
 
 run-simx:
 	$(MAKE) -C vecadd run-simx
@@ -34,7 +35,8 @@ run-simx:
 	$(MAKE) -C blackscholes run-simx
 	$(MAKE) -C transpose run-simx
 	$(MAKE) -C convolution run-simx
-	$(MAKE) -C fpuexhaust run-simx
+	$(MAKE) -C stressfpu run-simx
+	$(MAKE) -C stressalu rum-simx
 
 run-rtlsim:
 	$(MAKE) -C vecadd run-rtlsim
@@ -53,7 +55,8 @@ run-rtlsim:
 	$(MAKE) -C oclprintf run-rtlsim
 	$(MAKE) -C blackscholes run-rtlsim
 	$(MAKE) -C convolution run-rtlsim
-	$(MAKE) -C fpuexhaust run-rtlsim
+	$(MAKE) -C stressfpu run-rtlsim
+	$(MAKE) -C stressalu run-rtlsim
 
 run-opae:
 	$(MAKE) -C vecadd run-opae
@@ -72,7 +75,8 @@ run-opae:
 	$(MAKE) -C oclprintf run-opae
 	$(MAKE) -C blackscholes run-opae
 	$(MAKE) -C convolution run-opae
-	$(MAKE) -C fpuexhaust run-opae
+	$(MAKE) -C stressfpu run-opae
+	$(MAKE) -C stressalu run-opae
 
 clean:
 	$(MAKE) -C vecadd clean
@@ -91,7 +95,8 @@ clean:
 	$(MAKE) -C oclprintf clean
 	$(MAKE) -C blackscholes clean
 	$(MAKE) -C convolution clean
-	$(MAKE) -C fpuexhaust clean
+	$(MAKE) -C stressfpu clean
+	$(MAKE) -C stressalu clean
 
 clean-all:
 	$(MAKE) -C vecadd clean-all
@@ -110,4 +115,5 @@ clean-all:
 	$(MAKE) -C oclprintf clean-all
 	$(MAKE) -C blackscholes clean-all
 	$(MAKE) -C convolution clean-all
-	$(MAKE) -C fpuexhaust clean-all
+	$(MAKE) -C stressfpu clean-all
+	$(MAKE) -C stressalu clean-all

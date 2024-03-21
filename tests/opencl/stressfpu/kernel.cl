@@ -1,4 +1,4 @@
-__kernel void fpuexhaust (__global const float *A,
+__kernel void stressfpu (__global const float *A,
 	                    __global const float *B,
 	                    __global float *C)
 {

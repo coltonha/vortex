@@ -7,7 +7,7 @@
 #include <string.h>
 #include <chrono>
 
-#define KERNEL_NAME "fpuexhaust"
+#define KERNEL_NAME "stressalu"
 
 #define CL_CHECK(_expr)                                                \
    do {                                                                \
@@ -66,11 +66,9 @@ cl_command_queue commandQueue = NULL;
 cl_program program = NULL;
 cl_kernel kernel = NULL;
 cl_mem a_memobj = NULL;
-cl_mem b_memobj = NULL;
 cl_mem c_memobj = NULL;  
-float *h_a = NULL;
-float *h_b = NULL;
-float *h_c = NULL;
+int *h_a = NULL;
+int *h_c = NULL;
 uint8_t *kernel_bin = NULL;
 
 static void cleanup() {
@@ -78,14 +76,12 @@ static void cleanup() {
   if (kernel) clReleaseKernel(kernel);
   if (program) clReleaseProgram(program);
   if (a_memobj) clReleaseMemObject(a_memobj);
-  if (b_memobj) clReleaseMemObject(b_memobj);
   if (c_memobj) clReleaseMemObject(c_memobj);  
   if (context) clReleaseContext(context);
   if (device_id) clReleaseDevice(device_id);
   
   if (kernel_bin) free(kernel_bin);
   if (h_a) free(h_a);
-  if (h_b) free(h_b);
   if (h_c) free(h_c);
 }
 
@@ -131,9 +127,8 @@ int main (int argc, char **argv) {
   context = CL_CHECK2(clCreateContext(NULL, 1, &device_id, NULL, NULL,  &_err));
 
   printf("Allocate device buffers\n");
-  size_t nbytes = size * sizeof(float);
+  size_t nbytes = size * sizeof(int);
   a_memobj = CL_CHECK2(clCreateBuffer(context, CL_MEM_READ_ONLY, nbytes, NULL, &_err));
-  b_memobj = CL_CHECK2(clCreateBuffer(context, CL_MEM_READ_ONLY, nbytes, NULL, &_err));
   c_memobj = CL_CHECK2(clCreateBuffer(context, CL_MEM_WRITE_ONLY, nbytes, NULL, &_err));
 
   printf("Create program from kernel source\n");
@@ -157,18 +152,15 @@ int main (int argc, char **argv) {
 
   // Set kernel arguments
   CL_CHECK(clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&a_memobj));	
-  CL_CHECK(clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&b_memobj));	
-  CL_CHECK(clSetKernelArg(kernel, 2, sizeof(cl_mem), (void *)&c_memobj));
+  CL_CHECK(clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&c_memobj));
 
   // Allocate memories for input arrays and output arrays.    
-  h_a = (float*)malloc(nbytes);
-  h_b = (float*)malloc(nbytes);
-  h_c = (float*)malloc(nbytes);	
+  h_a = (int*)malloc(nbytes);
+  h_c = (int*)malloc(nbytes);	
 	
   // Generate input values
   for (int i = 0; i < size; ++i) {
-    h_a[i] = sinf(i)*sinf(i);
-    h_b[i] = cosf(i)*cosf(i);
+    h_a[i] = i;
   }
 
   // Creating command queue
@@ -176,7 +168,6 @@ int main (int argc, char **argv) {
 
 	printf("Upload source buffers\n");
   CL_CHECK(clEnqueueWriteBuffer(commandQueue, a_memobj, CL_TRUE, 0, nbytes, h_a, 0, NULL, NULL));
-  CL_CHECK(clEnqueueWriteBuffer(commandQueue, b_memobj, CL_TRUE, 0, nbytes, h_b, 0, NULL, NULL));
 
   printf("Execute the kernel\n");
   size_t global_work_size[1] = {size};
@@ -190,24 +181,8 @@ int main (int argc, char **argv) {
   printf("Download destination buffer\n");
   CL_CHECK(clEnqueueReadBuffer(commandQueue, c_memobj, CL_TRUE, 0, nbytes, h_c, 0, NULL, NULL));
 
-  printf("Verify result\n");
-  int errors = 0;
-  for (int i = 0; i < size; ++i) {
-    float ref = 1000;
-    if (!almost_equal(h_c[i], ref)) {
-      if (errors < 100) 
-        printf("*** error: [%d] expected=%f, actual=%f, a=%f, b=%f\n", i, ref, h_c[i], h_a[i], h_b[i]);
-      ++errors;
-    }
-  }
-  if (0 == errors) {
-    printf("PASSED!\n");
-  } else {
-    printf("FAILED! - %d errors\n", errors);    
-  }
-
   // Clean up		
   cleanup();  
 
-  return errors;
+  return 0;
 }
