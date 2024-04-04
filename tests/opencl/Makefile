@@ -17,6 +17,7 @@ all:
 	$(MAKE) -C convolution
 	$(MAKE) -C stressfpu
 	$(MAKE) -C stressalu
+	$(MAKE) -C stresslsu
 
 run-simx:
 	$(MAKE) -C vecadd run-simx
@@ -36,7 +37,8 @@ run-simx:
 	$(MAKE) -C transpose run-simx
 	$(MAKE) -C convolution run-simx
 	$(MAKE) -C stressfpu run-simx
-	$(MAKE) -C stressalu rum-simx
+	$(MAKE) -C stressalu run-simx
+	$(MAKE) -C stresslsu run-simx
 
 run-rtlsim:
 	$(MAKE) -C vecadd run-rtlsim
@@ -57,6 +59,7 @@ run-rtlsim:
 	$(MAKE) -C convolution run-rtlsim
 	$(MAKE) -C stressfpu run-rtlsim
 	$(MAKE) -C stressalu run-rtlsim
+	$(MAKE) -C stresslsu run-rtlsim
 
 run-opae:
 	$(MAKE) -C vecadd run-opae
@@ -77,6 +80,7 @@ run-opae:
 	$(MAKE) -C convolution run-opae
 	$(MAKE) -C stressfpu run-opae
 	$(MAKE) -C stressalu run-opae
+	$(MAKE) -C stresslsu run-opae
 
 clean:
 	$(MAKE) -C vecadd clean
@@ -97,6 +101,7 @@ clean:
 	$(MAKE) -C convolution clean
 	$(MAKE) -C stressfpu clean
 	$(MAKE) -C stressalu clean
+	$(MAKE) -C stresslsu clean
 
 clean-all:
 	$(MAKE) -C vecadd clean-all
@@ -117,3 +122,4 @@ clean-all:
 	$(MAKE) -C convolution clean-all
 	$(MAKE) -C stressfpu clean-all
 	$(MAKE) -C stressalu clean-all
+	$(MAKE) -C stresslsu clean-all
