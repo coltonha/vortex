@@ -7,7 +7,7 @@
 #include <string.h>
 #include <chrono>
 
-#define KERNEL_NAME "stresslsu"
+#define KERNEL_NAME "stresssfusync"
 
 #define CL_CHECK(_expr)                                                \
    do {                                                                \
@@ -163,7 +163,7 @@ int main (int argc, char **argv) {
 
   printf("Execute the kernel\n");
   size_t global_work_size[1] = {size};
-  size_t local_work_size[1] = {1};
+  size_t local_work_size[1] = {4};
   auto time_start = std::chrono::high_resolution_clock::now();
   CL_CHECK(clEnqueueNDRangeKernel(commandQueue, kernel, 1, NULL, global_work_size, local_work_size, 0, NULL, NULL));
   CL_CHECK(clFinish(commandQueue));
