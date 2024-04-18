@@ -145,6 +145,7 @@ int main (int argc, char **argv) {
   // Set kernel arguments
   CL_CHECK(clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&a_memobj));	
   CL_CHECK(clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&c_memobj));
+  CL_CHECK(clSetKernelArg(kernel, 2, 4 * sizeof(int), NULL));
 
   // Allocate memories for input arrays and output arrays.    
   h_a = (int*)malloc(nbytes);
