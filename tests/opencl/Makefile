@@ -19,6 +19,7 @@ all:
 	$(MAKE) -C stressalu
 	$(MAKE) -C stresslsu
 	$(MAKE) -C stresssfusync
+	$(MAKE) -C stresssfubranch
 
 run-simx:
 	$(MAKE) -C vecadd run-simx
@@ -41,6 +42,7 @@ run-simx:
 	$(MAKE) -C stressalu run-simx
 	$(MAKE) -C stresslsu run-simx
 	$(MAKE) -C stresssfusync run-simx
+	$(MAKE) -C stresssfubranch run-simx
 
 run-rtlsim:
 	$(MAKE) -C vecadd run-rtlsim
@@ -63,6 +65,7 @@ run-rtlsim:
 	$(MAKE) -C stressalu run-rtlsim
 	$(MAKE) -C stresslsu run-rtlsim
 	$(MAKE) -C stresssfusync run-rtlsim
+	$(MAKE) -C stresssfubranch run-rtlsim
 
 run-opae:
 	$(MAKE) -C vecadd run-opae
@@ -85,6 +88,7 @@ run-opae:
 	$(MAKE) -C stressalu run-opae
 	$(MAKE) -C stresslsu run-opae
 	$(MAKE) -C stresssfusync run-opae
+	$(MAKE) -C stresssfubranch run-opae
 
 clean:
 	$(MAKE) -C vecadd clean
@@ -107,6 +111,7 @@ clean:
 	$(MAKE) -C stressalu clean
 	$(MAKE) -C stresslsu clean
 	$(MAKE) -C stresssfusync clean
+	$(MAKE) -C stresssfubranch clean
 
 clean-all:
 	$(MAKE) -C vecadd clean-all
@@ -129,3 +134,4 @@ clean-all:
 	$(MAKE) -C stressalu clean-all
 	$(MAKE) -C stresslsu clean-all
 	$(MAKE) -C stresssfusync clean-all
+	$(MAKE) -C stresssfubranch clean-all
